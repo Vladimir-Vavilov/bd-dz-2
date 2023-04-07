@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS jenre(
 );
 
 CREATE TABLE IF NOT EXISTS artist(
-	id SERIAL PRIMARY KEY,
+	artistId int PRIMARY KEY,
 	album_id integer NOT NULL REFERENCES album(id),
 	name VARCHAR(40)
 );
@@ -13,15 +13,21 @@ CREATE TABLE IF NOT EXISTS track(
 	trackId int PRIMARY KEY,
 	name VARCHAR(60) NOT NULL,
 	album_id integer NOT NULL REFERENCES Album(id),
-	duration integer NOT NULL
+	duration TIMESTAMP(600) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS album(
 	id SERIAL PRIMARY KEY,
-	track_id integer NOT NULL REFERENCES track(id),
-	artist_id integer NOT NULL REFERENCES artist(id),
+	trackId integer NOT NULL REFERENCES track(id),
+	artistId integer NOT NULL REFERENCES artist(id),
 	name VARCHAR(40) NOT NULL,
-	released date
+	released date(2008-01-01)
+);
+
+CREATE TABLE IF NOT EXISTS	albumartist(
+	albumid int NOT NULL REFERENCES album (id),
+	artistid int NOT NULL REFERENCES artist (id),
+	CONSTRAINT aa PRIMARY KEY (albumid, artistid)
 );
 
 CREATE TABLE IF NOT EXISTS compilation(
@@ -31,7 +37,7 @@ CREATE TABLE IF NOT EXISTS compilation(
 );
 
 CREATE TABLE IF NOT EXISTS jenreartist(
- 	artist_id integer NOT NULL REFERENCES artist(id),
-	jenre_id integer NOT NULL REFERENCES jenre(id),
-	CONSTRAINT ja PRIMARY KEY (jenre_id, artist_id)
+ 	artistId integer NOT NULL REFERENCES artist(id),
+	jenreId integer NOT NULL REFERENCES jenre(id),
+	CONSTRAINT ja PRIMARY KEY (jenreId, artistId)
 );
