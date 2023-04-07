@@ -1,0 +1,37 @@
+CREATE TABLE IF NOT EXISTS jenre(
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(40)
+);
+
+CREATE TABLE IF NOT EXISTS artist(
+	id SERIAL PRIMARY KEY,
+	album_id integer NOT NULL REFERENCES album(id),
+	name VARCHAR(40)
+);
+
+CREATE TABLE IF NOT EXISTS track(
+	trackId int PRIMARY KEY,
+	name VARCHAR(60) NOT NULL,
+	album_id integer NOT NULL REFERENCES Album(id),
+	duration integer NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS album(
+	id SERIAL PRIMARY KEY,
+	track_id integer NOT NULL REFERENCES track(id),
+	artist_id integer NOT NULL REFERENCES artist(id),
+	name VARCHAR(40) NOT NULL,
+	released date
+);
+
+CREATE TABLE IF NOT EXISTS compilation(
+	trackId integer PRIMARY KEY REFERENCES track (trackId),
+	name VARCHAR(60) unique,
+	released date
+);
+
+CREATE TABLE IF NOT EXISTS jenreartist(
+ 	artist_id integer NOT NULL REFERENCES artist(id),
+	jenre_id integer NOT NULL REFERENCES jenre(id),
+	CONSTRAINT ja PRIMARY KEY (jenre_id, artist_id)
+);
