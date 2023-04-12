@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS Track(
 CREATE TABLE IF NOT EXISTS Album(
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(40) NOT NULL,
-	released TIMESTAMP (1980-01-01)
+	released TIMESTAMP (released > 1980-01-01)
 );
 
 CREATE TABLE IF NOT EXISTS Compilation(
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS Compilation(
 	CompilationId int foreign key references Compilation(CompilationId),
 	PRIMARY	 KEY(TrackId, CompilationId),
 	name VARCHAR(40),
-	released TIMESTAMP  (1980-01-01)
+	released TIMESTAMP  (released > 1980-01-01)
 );
 
 CREATE TABLE IF NOT EXISTS AlbumArtist(
