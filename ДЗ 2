@@ -10,23 +10,31 @@ CREATE TABLE IF NOT EXISTS Artist(
 
 CREATE TABLE IF NOT EXISTS Track(
 	id SERIAL PRIMARY KEY,
+	albumid int FOREIGN KEY REFERENCES Album(AlbumId),
 	name VARCHAR(60) NOT NULL,
+	duration VARCHA(120) NOT NULL,
 	CHECK (duration BETWEEN 30 AND 900)
 );
 
 CREATE TABLE IF NOT EXISTS Album(
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(40) NOT NULL,
-	released TIMESTAMP (released > 1980-01-01)
+	released TIMESTAMP (1980-01-01)
 );
 
 CREATE TABLE IF NOT EXISTS Compilation(
 	id SERIAL PRIMARY KEY,
-	trackId int foreign key references Track(TrackId),
-	CompilationId int foreign key references Compilation(CompilationId),
+	trackId int REFERENCES	 Track(TrackId),
+	CompilationId int REFERENCES	 Compilation(CompilationId),
 	PRIMARY	 KEY(TrackId, CompilationId),
 	name VARCHAR(40),
-	released TIMESTAMP  (released > 1980-01-01)
+	released TIMESTAMP  (1980-01-01)
+);
+
+CREATE TABLE IF NOT EXISTS TrackCompilation(
+	trackId INTEGER REFERENCES Track(TrackId),
+	compilationtId INTEGER REFERENCES Compilation(CompilationId),
+	CONSTRAINT tc PRIMARY KEY (trackId, compilationId)
 );
 
 CREATE TABLE IF NOT EXISTS AlbumArtist(
